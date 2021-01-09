@@ -1,0 +1,32 @@
+esphome:
+  name: bed_sensor
+  platform: ESP32
+  board: nodemcu-32s
+  
+wifi:
+  ssid: "MEO-FEEE10"
+  password: "56c75ccd2d"
+  
+sensor:
+  - platform: adc
+    pin: GPIO35
+    name: "Bed right"
+    id: "bed_left"
+    attenuation: 11db
+    update_interval: 1s
+  - platform: adc
+    pin: GPIO34
+    name: "Bed left"
+    id: "bed_right"
+    attenuation: 11db
+    update_interval: 1s
+
+api:
+    password: OtXAuDSBeIk8ZGJkNwZ88UBPlkqSd6XbAlsEfBvWJQ4
+    
+ # Example configuration entry
+debug:
+
+# Logger must be at least debug (default)
+logger:
+  level: verbose

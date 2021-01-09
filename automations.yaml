@@ -1,0 +1,54 @@
+- id: '1610214240892'
+  alias: Ligar lightstrip
+  description: Ligar lightstrip ao ser detetado movimento sem ninguem na cama
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 1bb3955ec85924e9d7ef3962d90486e1
+    entity_id: binary_sensor.sensor_movimento_motion
+    domain: binary_sensor
+  condition:
+  - condition: and
+    conditions:
+    - condition: numeric_state
+      entity_id: sensor.bed_left
+      above: '3.89'
+    - condition: numeric_state
+      entity_id: sensor.bed_right
+      above: '3.89'
+  action:
+  - type: turn_on
+    device_id: 00591426d69a29c7bd8b75e60a9d9cbb
+    entity_id: light.hue_lightstrip_plus_1
+    domain: light
+  mode: restart
+- alias: Desligar lightstrip passado 30s sem movimento
+  trigger:
+    platform: state
+    entity_id: binary_sensor.sensor_movimento_motion
+    to: 'off'
+    for:
+      seconds: 30
+  action:
+    service: light.turn_off
+    entity_id: light.hue_lightstrip_plus_1
+  id: 84287c8d29234d75bf2321b02f070543
+- id: '1610228770453'
+  alias: turn on the light when i leave bed
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bed_left
+    above: '3.89'
+  condition:
+  - type: is_motion
+    condition: device
+    device_id: 1bb3955ec85924e9d7ef3962d90486e1
+    entity_id: binary_sensor.sensor_movimento_motion
+    domain: binary_sensor
+  action:
+  - domain: light
+    entity_id: light.hue_lightstrip_plus_1
+    device_id: 00591426d69a29c7bd8b75e60a9d9cbb
+    type: turn_on
+  mode: single
